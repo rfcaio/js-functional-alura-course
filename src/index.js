@@ -1,9 +1,10 @@
 
-import { handleStatus } from './helpers/promise'
+import './helpers/array'
+import { log } from './helpers/promise'
+import { NoteService } from './note/service'
 
 document.querySelector('button').addEventListener('click', () => {
-  fetch('/notes')
-    .then(handleStatus)
-    .then(notes => console.log(notes))
-    .catch(console.log)
+  NoteService.sumValuesByCode('2143')
+    .then(log)
+    .catch(log)
 })
