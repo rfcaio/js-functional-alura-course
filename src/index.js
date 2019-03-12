@@ -1,7 +1,7 @@
 
 import './helpers/array'
 import { debounceTime, partialize, pipe, takeUntil } from './helpers/operators'
-import { log } from './helpers/promise'
+import { log, retry, timeout } from './helpers/promise'
 import { NoteService } from './note/service'
 
 let action = pipe(
@@ -10,7 +10,9 @@ let action = pipe(
 )
 
 let clickAction = action(() => {
-  NoteService.sumValuesByCode('2143').then(log).catch(log)
+  retry(5, 5000, () => timeout(500, NoteService.sumValuesByCode('2143')))
+    .then(log)
+    .catch(log)
 })
 
 document.querySelector('button').addEventListener('click', clickAction)
